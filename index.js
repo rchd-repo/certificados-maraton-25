@@ -35,12 +35,12 @@ async function main() {
 
 async function queryData() {
   const input = d3.select("#input").property("value");
-  const query = data.filter(d => d.correo == input.toLowerCase());
+  const query = data.filter(d => d.correo == input.toLowerCase().trim());
   if (query.length <= 0) {
     alert("El correo no está registrado entre los participantes confirmados.");
   } else {
     const name = query[0].nombre;
-    const titles = query.map(d => `— ${d.tipo} de: "${d.titulo}"`);
+    const titles = query.map(d => `— ${d.tipo} de: "${d.titulo.trim()}"`);
     await renderCertificate(name, titles);
     await makePdf();
   }
@@ -62,7 +62,7 @@ async function renderCertificate(name, titles) {
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0,0,canvasW,canvasH);
 
-  await drawLogo(ctx, "Logo.png", canvasW * 0.5, canvasH * 0.1, canvasW * 0.2, canvasH * 0.2);
+  await drawImage(ctx, "Logo.png", canvasW * 0.5, canvasH * 0.1, canvasW * 0.2, canvasH * 0.2);
 
   ctx.fillStyle = '#222';
   ctx.font = `${Math.round(canvasH * 0.03)}px serif`;
@@ -85,10 +85,15 @@ async function renderCertificate(name, titles) {
 
   ctx.font = `${Math.round(canvasH * 0.03)}px serif`;
   ctx.textAlign = 'center';
-  drawWrappedText(ctx, "La Maratón se realizó en la Universidad EAFIT y virtualmente los días 18 y 19 de septiembre de 2025", canvasW/2, base + (yUnit * 11), maxTextWidth, lineHeight);
+  drawWrappedText(ctx, "La Maratón se realizó en la Universidad EAFIT y virtualmente los días 18 y 19 de septiembre de 2025. Firman miembros del comité de base:", canvasW/2, base + (yUnit * 9), maxTextWidth, lineHeight);
 
   ctx.font = `${Math.round(canvasH * 0.02)}px serif`;
-  drawWrappedText(ctx, "Puede verificar este certificado consultando la programación del evento en rchd.com.co/maraton", canvasW/2, base + (yUnit * 14), maxTextWidth, lineHeight);
+  const marginSignature = 0.3;
+  await drawImage(ctx, "firmaMJA.png", canvasW * marginSignature, base + (yUnit * 12), canvasW * 0.2, canvasH * 0.2);
+  ctx.fillText('Maria José Afanador Llach', canvasW * marginSignature, base + (yUnit * 13));
+
+  await drawImage(ctx, "firmaSRG.png", canvasW - (canvasW * marginSignature), base + (yUnit * 12), canvasW * 0.2, canvasH * 0.2);
+  ctx.fillText('Sergio Rodríguez Gómez', canvasW - (canvasW * marginSignature), base + (yUnit * 13));
 }
 
 async function makePdf() {
@@ -124,10 +129,10 @@ function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight) {
   ctx.fillText(line, x, y);
 }
 
-function drawLogo(ctx, url, x, y, maxWidth, maxHeight) {
+function drawImage(ctx, url, x, y, maxWidth, maxHeight) {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.crossOrigin = "anonymous"; // required if logo comes from another domain with CORS enabled
+    img.crossOrigin = "anonymous";
     img.onload = () => {
       // Keep aspect ratio
       let w = img.width;
