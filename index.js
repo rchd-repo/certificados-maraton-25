@@ -62,7 +62,7 @@ async function renderCertificate(name, titles) {
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0,0,canvasW,canvasH);
 
-  await drawLogo(ctx, "logo.png", canvasW * 0.5, canvasH * 0.1, canvasW * 0.2, canvasH * 0.2);
+  await drawLogo(ctx, "Logo.png", canvasW * 0.5, canvasH * 0.1, canvasW * 0.2, canvasH * 0.2);
 
   ctx.fillStyle = '#222';
   ctx.font = `${Math.round(canvasH * 0.03)}px serif`;
