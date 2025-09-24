@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificados Participación Maratón HD 2025</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
+<body>
+  <div id="general">
+    <h2>Consultar certificado de participación Maratón 2025</h2>
+    <p for="input">Ingrese el correo electrónico exacto con el que se inscribió a la Maratón para obtener el certificado de participación:</p>
+    <input id="input" type="text" />
+    <button onclick="queryData()">Consultar y descargar</button>
+  </div>
+</body>
+<script src="index.js"></script>
+<style>
+  :root {
+    font-family: "Arial", sans-serif;
+  }
+
+  #general {
+    display: none;
+    flex-direction: column;
+    gap: 1em;
+    box-sizing: border-box;
+    width: 500px;
+    border: solid 1px black;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: auto;
+  }
+
+  input {
+    padding: 0.5rem;
+  }
+
+  button {
+    cursor: pointer;
+    padding: 0.5rem;
+
+  }
+</style>
+</html>
